@@ -73,7 +73,7 @@ int main() {
                 return char_to_points[l.hand[i]] < char_to_points[r.hand[i]];
             }
         }
-        return l.comb_rank < r.comb_rank; 
+        return l.comb_rank < r.comb_rank;
     });
 
     uint64_t res = 0;

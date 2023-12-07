@@ -33,7 +33,7 @@ int getCombRank(std::string h) {
     }
     if (m.begin()->second == 4 || m.rbegin()->second == 4) {
         if (j != 0) {
-                return 7;
+            return 7;
         }
         return 6;
     }
@@ -48,7 +48,7 @@ int getCombRank(std::string h) {
             if (js == 2) {
                 return 6;
             }
-                return 5;
+            return 5;
         }
         return 3;
     }
@@ -99,7 +99,7 @@ int main() {
                 return char_to_points[l.hand[i]] < char_to_points[r.hand[i]];
             }
         }
-        return l.comb_rank < r.comb_rank; 
+        return l.comb_rank < r.comb_rank;
     });
 
     uint64_t res = 0;
