@@ -56,6 +56,7 @@ int main() {
                 }
             }
         }
+        input_map.push_back(line);
     }
 
     for (auto [d, c] : dm) {
