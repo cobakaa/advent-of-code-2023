@@ -32,6 +32,19 @@ DIR rotateLeft(DIR d) {
     return UP;
 }
 
+DIR rotateBack(DIR d) {
+    if (d == UP) {
+        return DOWN;
+    }
+    if (d == DOWN) {
+        return UP;
+    }
+    if (d == LEFT) {
+        return RIGHT;
+    }
+    return LEFT;
+}
+
 int main() {
 
     std::unordered_map<char, std::pair<Point, Point>> m = {
@@ -59,9 +72,10 @@ int main() {
         input_map.push_back(line);
     }
 
+    std::vector<DIR> ds;
     for (auto [d, c] : dm) {
-        if (s.x + c.first >= 0 && s.x + c.first < input_map[s.x].size() &&
-            s.y + c.second >= 0 && s.y + c.second < input_map.size()) {
+        if ((s.x + c.first >= 0) && (s.x + c.first < input_map[s.y].length()) &&
+            (s.y + c.second >= 0) && (s.y + c.second < input_map.size())) {
 
             if (input_map[s.y + c.second][s.x + c.first] == '.') {
                 continue;
@@ -71,16 +85,17 @@ int main() {
                     d ||
                 m[input_map[s.y + c.second][s.x + c.first]].second.dir_cur ==
                     d) {
-                s.dir_cur = d;
-                s.dir_to = d;
-                break;
+                ds.push_back(d);
             }
         }
     }
 
+    s.dir_cur = ds[0];
+    s.dir_to = rotateBack(ds[1]);
+
     Point cur = s;
     std::unordered_map<std::pair<int, int>, Point, pair_hash> loop;
-    loop[{s.x, s.y}] = cur;
+    loop[{s.x, s.y}] = s;
     while (true) {
 
         char cur_c = input_map[cur.y + dm[cur.dir_cur].second]
@@ -104,7 +119,7 @@ int main() {
     }
     std::cout << loop.size() / 2 << "\n";
     std::unordered_set<std::pair<int, int>, pair_hash> inside;
-
+    bool f = false;
     for (auto [k, v] : loop) {
         cur.x = k.first;
         cur.y = k.second;
@@ -120,8 +135,12 @@ int main() {
             }
             if (cur.x < 0 || cur.x >= input_map[0].length() || cur.y < 0 ||
                 cur.y >= input_map.size()) {
+                f = true;
                 break;
             }
+            // if (input_map[cur.y][cur.x] != 'I') {
+            //     input_map[cur.y][cur.x] = 'I';
+            // }
             inside.insert({cur.x, cur.y});
         }
         cur.x = k.first;
@@ -136,13 +155,26 @@ int main() {
             }
             if (cur.x < 0 || cur.x >= input_map[0].length() || cur.y < 0 ||
                 cur.y >= input_map.size()) {
+                f = true;
                 break;
             }
+            // if (input_map[cur.y][cur.x] != 'I') {
+            //     input_map[cur.y][cur.x] = 'I';
+            // }
             inside.insert({cur.x, cur.y});
         }
     }
 
-    std::cout << inside.size() << std::endl;
+    if (f) {
+        std::cout << input_map[0].length() * input_map.size() - inside.size() -
+                         loop.size()
+                  << std::endl;
+        return 0;
+    }
 
+    std::cout << inside.size() << std::endl;
+    // for (int i = 0; i < input_map.size(); ++i) {
+    //     std::cout << input_map[i] << "\n";
+    // }
     return 0;
 }

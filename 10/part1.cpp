@@ -19,6 +19,19 @@ struct Point {
     DIR dir_to;
 };
 
+DIR rotateBack(DIR d) {
+    if (d == UP) {
+        return DOWN;
+    }
+    if (d == DOWN) {
+        return UP;
+    }
+    if (d == LEFT) {
+        return RIGHT;
+    }
+    return LEFT;
+}
+
 int main() {
 
     std::unordered_map<char, std::pair<Point, Point>> m = {
@@ -45,7 +58,7 @@ int main() {
         }
         input_map.push_back(line);
     }
-
+    std::vector<DIR> ds;
     for (auto [d, c] : dm) {
         if (s.x + c.first >= 0 && s.x + c.first < input_map[s.x].size() &&
             s.y + c.second >= 0 && s.y + c.second < input_map.size()) {
@@ -58,24 +71,26 @@ int main() {
                     d ||
                 m[input_map[s.y + c.second][s.x + c.first]].second.dir_cur ==
                     d) {
-                s.dir_cur = d;
-                s.dir_to = d;
-                break;
+                ds.push_back(d);
             }
         }
     }
+
+    s.dir_cur = ds[0];
+    s.dir_to = rotateBack(ds[1]);
 
     int res = 0;
 
     Point cur = s;
     while (true) {
-        
-        char cur_c = input_map[cur.y + dm[cur.dir_cur].second][cur.x + dm[cur.dir_cur].first];
+
+        char cur_c = input_map[cur.y + dm[cur.dir_cur].second]
+                              [cur.x + dm[cur.dir_cur].first];
         res++;
         if (cur_c == 'S') {
             break;
         }
-        
+
         cur.x = cur.x + dm[cur.dir_cur].first;
         cur.y = cur.y + dm[cur.dir_cur].second;
         if (m[cur_c].first.dir_cur == cur.dir_cur) {
@@ -86,7 +101,7 @@ int main() {
         }
     }
 
-    std::cout << res/2 << std::endl;
+    std::cout << res / 2 << std::endl;
 
     return 0;
 }
