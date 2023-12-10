@@ -48,22 +48,15 @@ int main() {
     std::string line;
     Point s = {-1, -1};
     while (std::getline(std::cin, line)) {
-        if (input_map.size() == 0) {
-            std::string str(line.size() + 2, '.');
-            input_map.push_back(str);
-        }
         if (s.x == -1 && s.y == -1) {
             for (size_t i = 0; i < line.length(); ++i) {
                 if (line[i] == 'S') {
-                    s.x = i + 1;
+                    s.x = i;
                     s.y = (int)input_map.size();
                 }
             }
         }
-        input_map.push_back("." + line + ".");
     }
-
-    input_map.push_back(std::string(line.size() + 2, '.'));
 
     for (auto [d, c] : dm) {
         if (s.x + c.first >= 0 && s.x + c.first < input_map[s.x].size() &&
