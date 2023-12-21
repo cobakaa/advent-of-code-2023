@@ -1,4 +1,3 @@
-#include <cstdint>
 #include <iostream>
 #include <queue>
 #include <string>
@@ -29,9 +28,11 @@ bool operator==(const Module &m1, const Module &m2) {
 
 int64_t GCD(int64_t lhs, int64_t rhs) {
     while (true) {
-        if (lhs == 0) return rhs;
+        if (lhs == 0)
+            return rhs;
         rhs %= lhs;
-        if (rhs == 0) return lhs;
+        if (rhs == 0)
+            return lhs;
         lhs %= rhs;
     }
     return 0;
@@ -152,32 +153,39 @@ int main() {
             if (modules.find({"nd", NONE, SENDER})->first.signal == HIGH) {
                 if (cycle["nd"] == 0) {
                     cycle["nd"] = res;
+                    std::cout << cycle["nd"] << std::endl;
                 }
             }
 
             if (modules.find({"vd", NONE, SENDER})->first.signal == HIGH) {
                 if (cycle["vd"] == 0) {
                     cycle["vd"] = res;
+                    std::cout << cycle["vd"] << std::endl;
                 }
             }
 
             if (modules.find({"pc", NONE, SENDER})->first.signal == HIGH) {
-                 if (cycle["pc"] == 0) {
+                if (cycle["pc"] == 0) {
                     cycle["pc"] = res;
+                    std::cout << cycle["pc"] << std::endl;
                 }
             }
 
             if (modules.find({"tx", NONE, SENDER})->first.signal == HIGH) {
-                 if (cycle["tx"] == 0) {
+                if (cycle["tx"] == 0) {
                     cycle["tx"] = res;
+                    std::cout << cycle["tx"] << std::endl;
                 }
             }
 
-            if (cycle["nd"] != 0 && cycle["vd"] != 0 && cycle["pc"] != 0 && cycle["tx"] != 0) {
-                std::cout << LCM(cycle["nd"], LCM(cycle["vd"], LCM(cycle["pc"], cycle["tx"]))) <<std::endl;
+            if (cycle["nd"] != 0 && cycle["vd"] != 0 && cycle["pc"] != 0 &&
+                cycle["tx"] != 0) {
+                std::cout << LCM(cycle["nd"],
+                                 LCM(cycle["vd"],
+                                     LCM(cycle["pc"], cycle["tx"])))
+                          << std::endl;
                 return 0;
             }
-
         }
     }
 
